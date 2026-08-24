@@ -57,3 +57,8 @@ installing Hugo or contacting Cloudflare, and reports each missing setting
 without printing its value. If the initial push runs before configuration is
 added, add both values and rerun the workflow manually. Cloudflare
 authentication is not required on developer machines.
+
+After deployment, verify the site at both endpoints:
+
+- Cloudflare Pages: <https://ectogon.pages.dev>
+- Custom domain: <https://ectogon.org>
