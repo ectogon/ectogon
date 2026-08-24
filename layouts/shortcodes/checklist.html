@@ -1,0 +1,9 @@
+{{- $items := split (strings.TrimSpace .Inner) "\n" -}}
+<ul class="checklist">
+  {{- range $items }}
+    {{- $item := strings.TrimSpace . -}}
+    {{- if $item }}
+  <li>{{ $item }}</li>
+    {{- end }}
+  {{- end }}
+</ul>

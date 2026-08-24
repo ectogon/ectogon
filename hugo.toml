@@ -1,0 +1,40 @@
+baseURL = 'https://ectogon.org/'
+locale = 'en-US'
+title = 'Ectogon'
+enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  description = 'Independent field guides for safer, clearer infrastructure engineering.'
+  homeTitle = 'Ectogon — Angles Outside'
+  themeColor = '#e7e5de'
+
+[permalinks]
+  guides = '/guides/:slug/'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      typographer = false
+    [markup.goldmark.renderer]
+      unsafe = false
+
+[caches]
+  [caches.getresource]
+    dir = ':resourceDir/_gen/getresource'
+    maxAge = -1
+  [caches.images]
+    dir = ':resourceDir/_gen/images'
+    maxAge = -1
+  [caches.misc]
+    dir = ':resourceDir/_gen/misc'
+    maxAge = -1
+
+[outputs]
+  home = ['HTML', 'RSS']
+  section = ['HTML', 'RSS']
+  page = ['HTML']
+
+[sitemap]
+  changeFreq = 'monthly'
+  priority = 0.5

@@ -1,0 +1,34 @@
+{{- $description := .Description | default site.Params.description -}}
+{{- $pageTitle := printf "%s — %s" .Title site.Title -}}
+{{- if .IsHome -}}
+  {{- $pageTitle = site.Params.homeTitle -}}
+{{- end -}}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="{{ site.Params.themeColor }}" />
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $description }}" />
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <link rel="stylesheet" href="{{ "styles.css" | relURL }}" />
+    {{- with .OutputFormats.Get "rss" }}
+    <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}" />
+    {{- end }}
+
+    <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:title" content="{{ if .IsHome }}{{ site.Params.homeTitle }}{{ else }}{{ .Title }}{{ end }}" />
+    <meta property="og:description" content="{{ $description }}" />
+    {{- if .IsHome }}
+    <meta property="og:image" content="{{ "og.png" | absURL }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ectogon — Angles Outside" />
+    {{- end }}
+    <meta name="twitter:card" content="{{ if .IsHome }}summary_large_image{{ else }}summary{{ end }}" />
+    <meta name="twitter:title" content="{{ if .IsHome }}{{ site.Params.homeTitle }}{{ else }}{{ .Title }}{{ end }}" />
+    <meta name="twitter:description" content="{{ $description }}" />
+    {{- if .IsHome }}
+    <meta name="twitter:image" content="{{ "og.png" | absURL }}" />
+    {{- end }}
+  </head>

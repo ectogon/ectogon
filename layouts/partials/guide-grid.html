@@ -1,0 +1,10 @@
+        <div class="guide-grid">
+          {{- $guides := (site.GetPage "section" "guides").RegularPages.ByWeight -}}
+          {{- range $guides }}
+          <a class="guide-card" href="{{ .RelPermalink }}">
+            <span class="guide-number">{{ .Params.guide_number }}</span>
+            <h3>{{ .Title }}</h3>
+            <p>{{ .Params.card_summary }}</p>
+          </a>
+          {{- end }}
+        </div>

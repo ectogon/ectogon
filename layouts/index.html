@@ -1,0 +1,34 @@
+{{ define "main" }}
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="eyebrow" aria-hidden="true">
+          <span>Field notes from the extra axis</span>
+          <span>Projection 04</span>
+        </div>
+
+        <div class="hero-lockup">
+          <div class="hero-copy">
+            <h1 id="hero-title">Angles<br />Outside.</h1>
+            <p class="hero-deck">
+              Some directions only become visible when the frame changes.
+              Ectogon follows the extra axis through infrastructure, systems,
+              and the decisions that shape them.
+            </p>
+          </div>
+
+          {{ partial "dimensional-field.html" . }}
+        </div>
+      </section>
+
+      <section class="guides" id="guides" aria-labelledby="guides-title">
+        <div class="section-intro">
+          <p class="section-kicker">Field notes · 01—10</p>
+          <h2 id="guides-title">Practice over prescription.</h2>
+          <p>
+            Ten durable patterns for building infrastructure that stays
+            understandable when the easy assumptions stop being true.
+          </p>
+        </div>
+
+        {{ partial "guide-grid.html" . }}
+      </section>
+{{ end }}

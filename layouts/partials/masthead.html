@@ -1,0 +1,4 @@
+      <header class="masthead">
+        <a class="wordmark" href="{{ if .IsHome }}#top{{ else }}{{ "/" | relURL }}{{ end }}" aria-label="Ectogon home">Ectogon</a>
+        <a class="masthead-link" href="{{ if .IsHome }}#guides{{ else }}{{ "/#guides" | relURL }}{{ end }}">{{ if .IsHome }}Field guides ↓{{ else }}All field guides{{ end }}</a>
+      </header>

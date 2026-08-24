@@ -1,0 +1,4 @@
+<div class="callout">
+  <span class="callout-label">{{ .Get "label" }}</span>
+  <p>{{ .Inner | strings.TrimSpace | markdownify }}</p>
+</div>

@@ -1,0 +1,37 @@
+{{ define "main" }}
+      <article class="article-shell">
+        <header class="article-header">
+          <p class="article-kicker">Field guide {{ .Params.guide_number }} · {{ .Params.topic }}</p>
+          <h1>{{ .Title }}</h1>
+          <p class="article-deck">{{ .Description }}</p>
+        </header>
+
+        <div class="article-layout">
+          <aside class="article-aside">
+            <strong>In brief</strong>
+            <ol>
+              {{- range .Params.brief }}
+              <li>{{ . }}</li>
+              {{- end }}
+            </ol>
+          </aside>
+
+          <div class="article-body">
+            {{ .Content }}
+          </div>
+        </div>
+
+        <nav class="article-nav" aria-label="Guide navigation">
+          {{- with .NextInSection }}
+          <a href="{{ .RelPermalink }}"><span>Previous · {{ .Params.guide_number }}</span>{{ .Title }}</a>
+          {{- else }}
+          <a href="{{ "/#guides" | relURL }}"><span>Index</span>All field guides</a>
+          {{- end }}
+          {{- with .PrevInSection }}
+          <a href="{{ .RelPermalink }}"><span>Next · {{ .Params.guide_number }}</span>{{ .Title }}</a>
+          {{- else }}
+          <a href="{{ "/#guides" | relURL }}"><span>Index</span>All field guides</a>
+          {{- end }}
+        </nav>
+      </article>
+{{ end }}

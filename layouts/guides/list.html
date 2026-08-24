@@ -1,0 +1,10 @@
+{{ define "main" }}
+      <section class="guides guide-index" id="guides" aria-labelledby="guides-title">
+        <div class="section-intro">
+          <p class="section-kicker">Index · 01—10</p>
+          <h1 id="guides-title">{{ .Title }}</h1>
+          <p>{{ .Description }}</p>
+        </div>
+        {{ partial "guide-grid.html" . }}
+      </section>
+{{ end }}
