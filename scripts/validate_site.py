@@ -25,6 +25,7 @@ class PageParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.links: list[str] = []
+        self.icons: set[tuple[str, str]] = set()
         self.meta: dict[str, str] = {}
         self.script_count = 0
         self.title_count = 0
@@ -51,6 +52,12 @@ class PageParser(HTMLParser):
             self.title_count += 1
         if tag in {"a", "link"} and values.get("href"):
             self.links.append(values["href"])
+        if (
+            tag == "link"
+            and "icon" in (values.get("rel") or "").split()
+            and values.get("href")
+        ):
+            self.icons.add((values["href"], values.get("sizes") or ""))
         if tag in {"img", "script"} and values.get("src"):
             self.links.append(values["src"])
         if tag == "meta":
@@ -81,6 +88,12 @@ def validate_page(path: Path) -> PageParser:
     assert parser.meta.get("og:description"), f"{path}: missing Open Graph description"
     assert parser.meta.get("twitter:title"), f"{path}: missing X title"
     assert parser.meta.get("twitter:description"), f"{path}: missing X description"
+    expected_icons = {
+        ("/favicon-16.png", "16x16"),
+        ("/favicon-32.png", "32x32"),
+        ("/favicon.png", "512x512"),
+    }
+    assert expected_icons <= parser.icons, f"{path}: missing favicon links"
     for url in parser.links:
         target = local_target(url)
         assert target is None or target.exists(), f"{path}: broken local reference {url}"
@@ -122,6 +135,9 @@ def main() -> None:
     assert len(list((ROOT / "guides").glob("*/index.html"))) == 10
     assert len(list(SOURCE.glob("*.md"))) == 11, "expected 10 guides and one section index"
     assert (ROOT / "styles.css").exists(), "missing stylesheet"
+    assert (ROOT / "favicon.png").exists(), "missing favicon master"
+    assert (ROOT / "favicon-32.png").exists(), "missing 32px favicon"
+    assert (ROOT / "favicon-16.png").exists(), "missing 16px favicon"
     assert (ROOT / "og.png").exists(), "missing social image"
     assert (ROOT / "sitemap.xml").exists(), "missing sitemap"
     assert (ROOT / "index.xml").exists(), "missing site RSS feed"
