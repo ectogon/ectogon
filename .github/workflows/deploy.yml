@@ -4,6 +4,28 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/deploy.yml
+      - .wrangler/**
+      - _vendor/**
+      - assets/**
+      - config/**
+      - content/**
+      - data/**
+      - functions/**
+      - go.mod
+      - go.sum
+      - go.work
+      - go.work.sum
+      - hugo.*
+      - i18n/**
+      - layouts/**
+      - scripts/**
+      - static/**
+      - themes/**
+      - wrangler.json
+      - wrangler.jsonc
+      - wrangler.toml
   workflow_dispatch:
 
 concurrency:
@@ -71,12 +93,21 @@ jobs:
           test -s public/og.png
           test "$(find public/guides -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 10
           test -s public/sitemap.xml
-          python3 scripts/validate_site.py
+          python3 -I scripts/validate_site.py
+
+      - name: Prepare isolated Wrangler workspace
+        id: wrangler-workspace
+        shell: bash
+        run: |
+          directory="$(mktemp -d "${RUNNER_TEMP}/wrangler-deploy.XXXXXX")"
+          echo "path=${directory}" >> "${GITHUB_OUTPUT}"
 
       - name: Deploy Pages site
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: ${{ steps.wrangler-workspace.outputs.path }}
+          packageManager: npm
           wranglerVersion: 4.125.0
-          command: pages deploy public --project-name=ectogon --branch=main
+          command: pages deploy ${{ github.workspace }}/public --project-name=ectogon --branch=main

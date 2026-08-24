@@ -42,11 +42,20 @@ automatically.
 
 ## Deployment
 
-Pushes to `main` install the pinned Hugo release, verify its checksum, build and
-validate the site, and upload the generated `public/` directory to the
-`ectogon` Cloudflare Pages project. Configure these values under repository
-**Settings → Secrets and variables → Actions** before the first successful
-deployment:
+Pushes to `main` that change a site input install the pinned Hugo release,
+verify its checksum, build and validate the site, and upload the generated
+`public/` directory to the `ectogon` Cloudflare Pages project. Site inputs are
+the Hugo configuration and module files, content, layouts, static files,
+assets, data, translations, themes, vendored modules, and this deployment
+workflow. Validation scripts are also deployment inputs because they run before
+upload. Cloudflare Functions, Wrangler configuration, and tracked Wrangler
+state trigger the workflow so validation can reject them: this repository
+intentionally deploys only a static site. Changes only to documentation, ADRs,
+authoring archetypes, or repository metadata do not trigger a deployment. The
+manual workflow remains available when an operator needs to rebuild explicitly.
+
+Configure these values under repository **Settings → Secrets and variables →
+Actions** before the first successful deployment:
 
 - Repository secret: `CLOUDFLARE_API_TOKEN`
 - Repository variable: `CLOUDFLARE_ACCOUNT_ID`
@@ -56,7 +65,10 @@ permissions needed to deploy Pages. The workflow checks both values before
 installing Hugo or contacting Cloudflare, and reports each missing setting
 without printing its value. If the initial push runs before configuration is
 added, add both values and rerun the workflow manually. Cloudflare
-authentication is not required on developer machines.
+authentication is not required on developer machines. Wrangler runs from a
+unique runner-temporary directory created after isolated-mode validation, with
+an explicit package manager and no access to repository package files or local
+binaries.
 
 After deployment, verify the site at both endpoints:
 

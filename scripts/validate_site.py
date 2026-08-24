@@ -1,10 +1,12 @@
+import subprocess
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
 
-ROOT = Path(__file__).resolve().parents[1] / "public"
-SOURCE = Path(__file__).resolve().parents[1] / "content" / "guides"
+REPOSITORY = Path(__file__).resolve().parents[1]
+ROOT = REPOSITORY / "public"
+SOURCE = REPOSITORY / "content" / "guides"
 GUIDES = (
     "configuration-ownership",
     "readable-gitops",
@@ -85,7 +87,31 @@ def validate_page(path: Path) -> PageParser:
     return parser
 
 
+def validate_static_boundary() -> None:
+    forbidden_sources = (
+        REPOSITORY / "functions",
+        REPOSITORY / "wrangler.toml",
+        REPOSITORY / "wrangler.json",
+        REPOSITORY / "wrangler.jsonc",
+    )
+    for path in forbidden_sources:
+        assert not path.exists(), (
+            f"static site may not include Cloudflare runtime input: {path}"
+        )
+
+    tracked_wrangler_state = subprocess.run(
+        ["git", "ls-files", "--", ".wrangler"],
+        cwd=REPOSITORY,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    assert not tracked_wrangler_state, f"static site may not track Wrangler state: {tracked_wrangler_state}"
+    assert not (ROOT / "_worker.js").exists(), "static site may not include public/_worker.js"
+
+
 def main() -> None:
+    validate_static_boundary()
     guide_pages = [ROOT / "guides" / slug / "index.html" for slug in GUIDES]
     pages = [ROOT / "index.html", ROOT / "404.html", ROOT / "guides" / "index.html", *guide_pages]
     parsed: dict[Path, PageParser] = {}
