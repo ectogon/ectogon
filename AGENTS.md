@@ -54,6 +54,30 @@ python3 -I scripts/validate_site.py
 - Confirm generated guide bodies and URLs remain stable during content or
   template migrations.
 
+## Automated browser QA
+
+- Install Node.js 22 or newer and run `npm ci` before the browser suite.
+- Install the pinned Chromium runtime once with `make browser-qa-install`.
+- Run `make browser-qa` after changing layouts, styles, navigation, controls,
+  responsive behavior, or client-side interactions. The suite starts its own Hugo
+  server and exercises Chromium at 1536×1024 and 390×844.
+- Do not leave another application on port 4173; set `BROWSER_QA_PORT=<port>` when
+  another port is needed. Set `BROWSER_QA_BASE_URL=http://127.0.0.1:<port>` to
+  exercise an already-running preview.
+- The default routes cover the home page, guide index, and a guide detail.
+  Override them with a comma-separated value such as
+  `BROWSER_QA_PATHS=/,/guides/`.
+- The suite must fail on page errors, console errors, failed same-origin requests,
+  horizontal overflow, broken images, missing keyboard focus, or failing internal
+  links. It records screenshots under `test-results/` and an HTML report under
+  `playwright-report/`.
+- When a visual or interactive change introduces a new state, extend
+  `tests/browser/site.spec.js` with focused assertions for it. The generic smoke
+  checks are a floor, not a substitute for feature-specific coverage.
+- If integrated browser control is unavailable, use this Playwright suite. A Hugo
+  build, HTTP status check, or static Quick Look/WebKit thumbnail is not an
+  automated browser-QA pass and must not be reported as one.
+
 ## Deployment
 
 - Production deployment runs through `.github/workflows/deploy.yml`; local
@@ -73,4 +97,4 @@ python3 -I scripts/validate_site.py
 - Record material architecture or operational decisions under `docs/adr/`
   before publishing the change.
 - Do not commit secrets, local Cloudflare state, Hugo caches, or generated
-  output.
+  output, browser reports, or browser binaries.
