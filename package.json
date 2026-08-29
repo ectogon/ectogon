@@ -1,0 +1,14 @@
+{
+  "name": "ectogon-static",
+  "private": true,
+  "scripts": {
+    "qa:browser": "playwright test",
+    "qa:browser:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
