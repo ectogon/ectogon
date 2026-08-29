@@ -1,0 +1,41 @@
+docs/adr/0006-use-playwright-for-local-browser-qa/decision.md
+  s_1a3ab2794c086e::t_fea2a5223aa877 25-26
+  s_1a3ab2794c086e::t_43ba765166feec 1-24,27-61
+package.json
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 1-14
+.gitignore
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 2-3
+tests/browser/site.spec.js
+  s_1a3ab2794c086e::t_fffa860fd7087b 70-79,81,98-104,106-107,109,111-112
+  s_1a3ab2794c086e::t_e629f45633db15 82-85
+  s_1a3ab2794c086e::t_1ebf12dcab4a53 40-68
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 1-2,5-39,69,80,86-97,105,108,110,113-136
+  s_1a3ab2794c086e::t_57ea5514fdba93 3-4
+AGENTS.md
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 57-66,69-80,100
+  s_1a3ab2794c086e::t_57ea5514fdba93 67-68
+package-lock.json
+  s_1a3ab2794c086e::t_fa8816fb2b3c7c 1-79
+playwright.config.js
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 1-50
+Makefile
+  s_1a3ab2794c086e::t_5e86fca3a2a4c0 1-21
+static/styles.css
+  s_1a3ab2794c086e::t_edff081e1c12cc 19,24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "03af69dd9e1b9b5a671e67bca5ab1d898d00c7de",
+  "prompts": {},
+  "sessions": {
+    "s_1a3ab2794c086e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a025de-7247-7df3-a2dd-ed4a322e735a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": null
+    }
+  }
+}
